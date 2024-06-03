@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="static/custom.css"/>
+</head>
+<body>
+  <div class="container-fluid w-75 pt-3">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+      <a class="navbar-brand" href="#">My awesome website</a>
+      <div class="position">
+        <% if (!authenticated) { %>
+          <a href="/register" class="d-inline p-2 bg-primary text-white">Register</a>
+          <a href="/login" class="d-inline p-2 bg-primary text-white">Login</a>
+        <% } else { %>
+          <a href="/logout" class="d-inline p-2 bg-primary text-white">Logout</a>
+        <% } %>
+      </div>
+    </nav>
+
+    <div id="alert-container"></div>
+
+    <% if (!authenticated) { %>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet accusamus suscipit laborum id dignissimos ipsum enim repellendus harum odio consequuntur voluptatibus molestiae, ratione, minima error cupiditate impedit temporibus soluta. Possimus!</p>
+      <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ut reprehenderit voluptatem sit rerum ducimus animi harum ipsa non, nobis quibusdam cumque pariatur labore temporibus deserunt dolores? Blanditiis dicta mollitia voluptatem?</p>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores accusamus, sapiente tempore provident libero omnis esse itaque ut sunt eligendi id odit animi, nam molestiae sed eos, qui nulla ratione?</p>
+    <% }  else { %>
+      <h1> Your information </h1>
+      <div> Username <%= authenticated.username %> </div>
+      <div> First name <%= authenticated.firstName %> </div>
+      <div> Last name <%= authenticated.lastName %> </div>
+      <div> Street <%= authenticated.street %> </div>
+    <% } %>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const message = urlParams.get('message');
+      if (message) {
+        const alertContainer = document.getElementById('alert-container');
+        const alertBox = document.createElement('div');
+        if (message === "User already exists" || message === "The username or password is wrong"){
+          alertBox.className = 'alert alert-danger';
+        } else{
+          alertBox.className = 'alert alert-success';
+        }        
+        alertBox.role = 'alert';
+        alertBox.innerText = message;
+        alertContainer.appendChild(alertBox);
+      }
+    });
+  </script>
+  <script src="/js/bootstrap.js"></script>  
+</body>
+</html>

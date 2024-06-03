@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Registration</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="static/custom.css"/>
+</head>
+<body>
+  <div class="container-fluid w-75 pt-3">
+    <h1>Login</h1>  
+    <form action="/login" method="POST">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input class="form-control" type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input class="form-control" type="password" id="password" name="password" required>
+        <br>
+        <button class="btn btn-primary" type="submit">Log in</button>
+      </div>
+    </form>
+  </div>
+
+ <script src="/js/bootstrap.js"></script>  
+</body>
+</html>
