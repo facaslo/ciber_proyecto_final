@@ -6,6 +6,7 @@ const login_route = require("./routes/login");
 const register_route = require("./routes/register");
 const home_route = require("./routes/home")
 const logout_route = require('./routes/logout'); 
+const task_route = require('./routes/tasks')
 const app = express();
 const port = 3000;
 
@@ -36,6 +37,8 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
+//
+
 // Set up engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -43,6 +46,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use("/login",login_route);
 app.use("/register",register_route);
 app.use('/logout', logout_route); 
+app.use('/tasks' , task_route)
 app.use("/", home_route);
 
 // Handle 404

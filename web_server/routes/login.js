@@ -1,5 +1,6 @@
 const express = require("express")
-const session = require('express-session')
+//const session = require('express-session')
+const neo4jSession = require("../utilities/neo4j_connection");
 const router = express.Router()
 const User = require("../models/user")
 
@@ -21,8 +22,7 @@ router.post('/', async (req, res) => {
 
     if (!userExists){     
       res.redirect('/?message=The username or password is wrong');
-    } else{
-      console.log({...result["0"].address})
+    } else{      
       //console.log("session" + JSON.stringify({...result["0"], ...result["0"].address}))
       req.session.user = { "username" : result["0"].username, "email": result["0"].email, "firstName" : result["0"].firstName , "lastName": result["0"].lastName  , ...result["0"].address};
       res.redirect('/')
