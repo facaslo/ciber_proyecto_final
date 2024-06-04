@@ -10,13 +10,26 @@ router.post("/", async(req, res) => {
   try {
     const {username} = req.body;
         
-    const result = await User.find({username : username}).exec();         
-    const userExists = Object.keys(result).length > 0     
+    let result = req.session.user     
 
-    if (!userExists){     
+    if (!result){     
       res.redirect('/?message=Wrong request');
     } else{
       let tasks = []
+      await neo4jSession.run(
+        "MATCH (u:User) -[:HAS_CATEGORY]->(c:Category)-[:HAS_TASK]->(t:Task) WHERE u.username = '" + username + "' RETURN c.name,t.title, t.description" 
+      ).then((result) => {
+        result.records.forEach((record) => {
+          const row = { category: record.get('c.name'), task_title: record.get('t.title'), description: record.get('t.description') }
+          tasks = [...tasks, row]
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+        throw (error)
+      })
+
+      /*
       await neo4jSession.run(
         'MATCH (u:User {username: $username})-[:HAS_CATEGORY]->(c:Category)-[:HAS_TASK]->(t:Task) RETURN c.name,t.title, t.description',
         { username }
@@ -30,7 +43,7 @@ router.post("/", async(req, res) => {
         console.log(error)
         throw (error)
       })
-      
+      */
       console.log("tasks:")
       console.log(tasks)      
       //console.log("session" + JSON.stringify({...result["0"], ...result["0"].address}))

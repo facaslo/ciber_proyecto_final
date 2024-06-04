@@ -8,3 +8,7 @@ Para poblar base de datos de NEO4j:
 Dentro de la shell interactiva ejecutar:
 
 "cypher-shell -f populateNEO.cql"
+
+Credenciales:
+Usuario: neo4j
+password: password
